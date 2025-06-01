@@ -1,0 +1,7 @@
+<% if @order.b1_doc_num.nil? %>
+  <p>ابتدا سفارش را ثبت کنید</p>
+<% end %>
+<% if !@order.b1_doc_num.nil? && @payment.b1_doc_num.nil?%>
+  <%= button_to 'Create Payment in B1', create_payment_admin_order_b1_document_requests_path(@payment), method: :post, class: 'btn btn-primary' %>
+<% end %>
+

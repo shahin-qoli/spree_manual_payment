@@ -1,0 +1,32 @@
+<div class="form-group">
+  <%= label_tag "source[from_data]", "From Data" %>
+  <%= text_field_tag "source[from_data]", nil, class: "form-control", placeholder: "Enter from data" %>
+</div>
+<div class="form-group">
+  <%= label_tag "source[to_data]", "To Data" %>
+  <%= text_field_tag "source[to_data]", nil, class: "form-control", placeholder: "Enter to data" %>
+</div>
+
+<div class="form-group">
+  <%= label_tag "source[description]", "Description" %>
+  <%= text_field_tag "source[description]", nil, class: "form-control", placeholder: "Enter description" %>
+</div>
+
+<div class="form-group">
+  <%= label_tag "source[transaction_date]", "Transaction Date" %>
+  <div class="input-group">
+    <%= text_field_tag "source[transaction_date]",
+        datepicker_field_value(@payment.source&.transaction_date),
+        placeholder: Spree.t(:select_a_date),
+        class: "form-control datepicker",
+        data: { input: true } %>
+    <%= render partial: 'spree/admin/shared/cal_close' %>
+  </div>
+</div>
+
+<div class="form-group" data-hook="admin_manual_payment_type">
+  <%= label_tag "manual_payment_source_type_id", Spree.t(:manual_payment_source_type) %>
+  <%= select_tag "source[manual_payment_source_type_id]",
+      options_from_collection_for_select(Spree::ManualPaymentSourceType.all, :id, :name),
+      class: "form-control" %>
+</div>

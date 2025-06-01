@@ -1,0 +1,33 @@
+<!-- From Data -->
+<% content_for :page_actions do %>
+  <%= render partial: "b1_actions" %>
+<% end if can? :create, Spree::B1Request %>
+
+<div class="form-group">
+  <strong>From Data:</strong>
+  <p><%= @payment.source&.from_data.presence || '-' %></p>
+</div>
+
+<!-- To Data -->
+<div class="form-group">
+  <strong>To Data:</strong>
+  <p><%= @payment.source&.to_data.presence || '-' %></p>
+</div>
+
+<!-- Description -->
+<div class="form-group">
+  <strong>Description:</strong>
+  <p><%= @payment.source&.description.presence || '-' %></p>
+</div>
+
+<!-- Transaction Date -->
+<div class="form-group">
+  <strong>Transaction Date:</strong>
+  <p><%= datepicker_field_value(@payment.source&.transaction_date).presence || '-' %></p>
+</div>
+
+<!-- Manual Payment Source Type -->
+<div class="form-group" data-hook="admin_manual_payment_type">
+  <strong><%= Spree.t(:manual_payment_source_type) %>:</strong>
+  <p><%= @payment.source&.manual_payment_source_type&.name || '-' %></p>
+</div>
