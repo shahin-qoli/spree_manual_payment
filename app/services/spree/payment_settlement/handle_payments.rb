@@ -19,9 +19,9 @@ module Spree::PaymentSettlement
 					if outstanding_balance <= available_store_credit
 						hanlde_user_store_credit(outstanding_balance)
 						order.reload.payments.select{|item| (item.state == "checkout" && item.payment_method.is_a?(Spree::PaymentMethod::StoreCredit)) }.last&.complete!
-						if @order_brx.reload.paid? 
-		          while !@order_brx.complete?
-		            if !@order_brx.next
+						if order.reload.paid? 
+		          while !order.complete?
+		            if !order.next
 		              break
 		            end
 		          end
