@@ -107,10 +107,20 @@ module Spree
           amount: @amount_brx, payment_method: payment_method
           }).complete!
         @order_brx.payments.select{|item| (item.state == "checkout" && item.payment_method.is_a?(Spree::PaymentMethod::StoreCredit)) }.last&.complete!
-        @order_brx.finalize!
         @checkout_brx.is_paied = true
+        @checkout_brx.is_used = true
         @checkout_brx.save!        
-        session[:order_id] = nil
+        session[:order_id] = nil        
+        if @order_brx.reload.paid? 
+          while !@order_brx.complete?
+            if !@order_brx.next
+              break
+            end
+          end
+        else
+          redirect_to(failure_route_brx(@failure_url,@order_brx_number))
+        end
+
         redirect_to(completion_route_brx(@success_url,@order_brx_number))
       elsif verify_payment["result"] == false && verify_payment.key?("error")
         Spree::Checkout::RemoveStoreCredit.new.call(order: @order_brx)
