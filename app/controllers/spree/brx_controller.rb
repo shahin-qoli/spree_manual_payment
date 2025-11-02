@@ -106,7 +106,7 @@ module Spree
           source: Spree::BrxExpressCheckout.find_by(request_id: @request_id_brx),
           amount: @amount_brx, payment_method: payment_method
           }).complete!
-        @order_brx.payments.select{|item| (item.state == "checkout" && item.payment_method.is_a?(Spree::PaymentMethod::StoreCredit)) }.last&.complete!
+        #@order_brx.payments.select{|item| (item.state == "checkout" && item.payment_method.is_a?(Spree::PaymentMethod::StoreCredit)) }.last&.complete!
         @checkout_brx.is_paied = true
         @checkout_brx.is_used = true
         @checkout_brx.save!        

@@ -18,16 +18,14 @@ module Spree::PaymentSettlement
 				if payment_method.type.eql? store_credit_class
 					if outstanding_balance <= available_store_credit
 						hanlde_user_store_credit(outstanding_balance)
-						order.reload.payments.select{|item| (item.state == "checkout" && item.payment_method.is_a?(Spree::PaymentMethod::StoreCredit)) }.last&.complete!
-						if order.reload.paid? 
+						# order.reload.payments.select{|item| (item.state == "checkout" && item.payment_method.is_a?(Spree::PaymentMethod::StoreCredit)) }.last&.complete!
+				
 		          while !order.complete?
 		            if !order.next
 		              break
 		            end
 		          end
-		        else
-		        	return failure_route_brx(params['success_url'],order.number)
-		        end
+
 						return completion_route_brx(params['success_url'],order.number)
 					else
 						raise "مبلغ کیف پول کمتر از مبلغ سفارش است"
